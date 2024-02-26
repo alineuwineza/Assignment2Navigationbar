@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:navigationbar/google_sign_in.dart'; // Import your google_sign_in.dart file
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -6,8 +7,7 @@ class LoginScreen extends StatelessWidget {
     return SingleChildScrollView(
       child: Center(
         child: Container(
-          width: MediaQuery.of(context).size.width *
-              0.8, 
+          width: MediaQuery.of(context).size.width * 0.8,
           decoration: BoxDecoration(
             color: Colors.blue,
             borderRadius: BorderRadius.circular(20),
@@ -19,9 +19,10 @@ class LoginScreen extends StatelessWidget {
               Text(
                 'Login',
                 style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
               SizedBox(height: 20),
               TextFormField(
@@ -49,9 +50,21 @@ class LoginScreen extends StatelessWidget {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  
+                  // Add your login logic here
                 },
                 child: Text('Login'),
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.white),
+                ),
+              ),
+              SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () {
+                  // Call handleSignIn function when the button is pressed
+                  handleSignIn();
+                },
+                child: Text('Sign in with Google'),
                 style: ButtonStyle(
                   backgroundColor:
                       MaterialStateProperty.all<Color>(Colors.white),

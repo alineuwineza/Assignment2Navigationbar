@@ -3,8 +3,10 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 import 'NavBar.dart';
 import 'login_screen.dart';
-import 'signup_screen.dart'; 
-import 'screen.dart'; 
+import 'signup_screen.dart';
+import 'screen.dart';
+import 'homescreen.dart';
+import 'contact.dart'; // Import Contact class from separate file
 
 void main() {
   runApp(MyApp());
@@ -20,45 +22,21 @@ class _MyAppState extends State<MyApp> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
 
-  final List<Widget> _widgetOptions = <Widget>[
-    Container(
-      color: Color.fromARGB(255, 7, 160, 255),
-      child: Center(
-        child: Text(
-          "Gallery",
-          style: optionStyle,
-        ),
-      ),
-    ),
-    Container(
-      color: Color.fromARGB(255, 135, 140, 210),
-      child: Center(
-        child: Text(
-          "explore",
-          style: optionStyle,
-        ),
-      ),
-    ),
-    Screen(), 
-    SignUpScreen(),
-    LoginScreen(),
-  ];
+  List<Widget> _widgetOptions = []; // Initialize as empty list
 
-  
   final ThemeData _lightTheme = ThemeData(
     primarySwatch: Colors.blue,
     hintColor: Colors.amber,
     brightness: Brightness.light,
   );
 
-  
   final ThemeData _darkTheme = ThemeData(
     primarySwatch: Colors.teal,
     hintColor: Colors.deepOrange,
     brightness: Brightness.dark,
   );
 
-  ThemeData _currentTheme = ThemeData.light(); 
+  ThemeData _currentTheme = ThemeData.light();
 
   void _toggleTheme() {
     setState(() {
@@ -66,10 +44,63 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-   @override
+  List<Contact> _contacts = []; // Initialize as empty list
+
+  @override
+  void initState() {
+    super.initState();
+    _contacts =
+        Contact.generateRandomContacts(10); // Generate initial random contacts
+
+    // Initialize _widgetOptions after _contacts is initialized
+    _widgetOptions = <Widget>[
+      HomeScreen(),
+      Container(
+        color: Colors.blue, // Changed background color to blue
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Contacts", // Changed text here
+                style: optionStyle.copyWith(
+                    color: Colors.white), // Changed text color to white
+              ),
+              SizedBox(height: 20),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _contacts.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(_contacts[index].name),
+                      subtitle: Text(_contacts[index].phoneNumber),
+                    );
+                  },
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // Import more contacts
+                  setState(() {
+                    _contacts.addAll(Contact.generateRandomContacts(5));
+                  });
+                },
+                child: Text('Import More Contacts'),
+              ),
+            ],
+          ),
+        ),
+      ),
+      Screen(),
+      LoginScreen(),
+      SignUpScreen(),
+    ];
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false, 
+      debugShowCheckedModeBanner: false,
       theme: _currentTheme,
       home: Scaffold(
         drawer: NavBar(),
@@ -113,8 +144,8 @@ class _MyAppState extends State<MyApp> {
                     text: "gallery",
                   ),
                   GButton(
-                    icon: LineIcons.internetExplorer,
-                    text: "explore",
+                    icon: LineIcons.users,
+                    text: "contacts",
                   ),
                   GButton(
                     icon: LineIcons.calculator,

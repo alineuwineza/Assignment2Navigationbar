@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:navigationbar/login_screen.dart'; // Import your login screen file
 
 class SignUpScreen extends StatelessWidget {
   @override
@@ -6,8 +7,7 @@ class SignUpScreen extends StatelessWidget {
     return SingleChildScrollView(
       child: Center(
         child: Container(
-          width: MediaQuery.of(context).size.width *
-              0.8, // Set width to 80% of the screen width
+          width: MediaQuery.of(context).size.width * 0.8,
           decoration: BoxDecoration(
             color: Colors.blue,
             borderRadius: BorderRadius.circular(20),
@@ -19,9 +19,10 @@ class SignUpScreen extends StatelessWidget {
               Text(
                 'Sign Up',
                 style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
               SizedBox(height: 20),
               TextFormField(
@@ -61,11 +62,27 @@ class SignUpScreen extends StatelessWidget {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  
+                  // Sign up logic
+                  // After successful sign-up, navigate to the login screen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()),
+                  );
                 },
                 child: Text('Sign Up'),
-                style: ElevatedButton.styleFrom(
-                  
+              ),
+              SizedBox(height: 10),
+              TextButton.icon(
+                onPressed: () {
+                  // Sign in with Google logic
+                },
+                icon: Icon(
+                  Icons.person,
+                  color: Colors.white,
+                ),
+                label: Text(
+                  'Sign in with Google',
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
             ],
